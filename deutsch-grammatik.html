@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Grammatik – Lektion 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --gold: #c9a84c;
+    --cream: #fdf6e9;
+    --soft: #f0e9d6;
+    --text: #2c2c2c;
+    --muted: #7a7060;
+    --green: #3a7d5a;
+    --red: #b94040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream); color: var(--text);
+    min-height: 100vh; padding: 24px 16px 60px;
+  }
+  header { text-align: center; margin-bottom: 28px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); }
+  header p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+  .tabs {
+    display: flex; justify-content: center;
+    gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 16px; border-radius: 20px;
+    border: 2px solid var(--navy); background: transparent;
+    color: var(--navy); font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .tab.active, .tab:hover { background: var(--navy); color: var(--cream); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .section { max-width: 620px; margin: 0 auto 28px; }
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; color: var(--navy);
+    margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .rule-box {
+    background: white; border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.08);
+  }
+
+  /* TABELLE */
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th {
+    background: var(--navy); color: white;
+    padding: 8px 12px; text-align: left; font-size: 0.82rem;
+  }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--soft); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #faf7f0; }
+  .hl { color: var(--navy); font-weight: 700; }
+  .red { color: var(--red); font-weight: 700; }
+
+  .example-block {
+    background: #f8f4eb; border-left: 4px solid var(--gold);
+    border-radius: 0 8px 8px 0; padding: 12px 16px; margin-top: 12px;
+  }
+  .ex-row { margin-bottom: 8px; }
+  .ex-row:last-child { margin-bottom: 0; }
+  .ex-de { color: var(--navy); font-weight: 600; font-size: 0.9rem; }
+  .ex-fa { color: var(--muted); font-size: 0.8rem; font-style: italic; }
+
+  .tip-box {
+    background: #e8f4fd; border-radius: 10px;
+    padding: 12px 16px; margin-top: 12px;
+    font-size: 0.87rem; color: #1a4a7a;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+
+  /* KONNEKTOREN */
+  .kk-card {
+    background: white; border-radius: 12px;
+    padding: 16px 18px; margin-bottom: 12px;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.08);
+    border-left: 5px solid var(--gold);
+  }
+  .kk-title { font-weight: 700; color: var(--navy); font-size: 1rem; margin-bottom: 3px; }
+  .kk-func { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kk-ex { font-size: 0.9rem; font-style: italic; color: var(--text); line-height: 1.5; }
+  .kk-ex span { color: var(--navy); font-weight: 700; font-style: normal; }
+
+  /* WÖRTER */
+  .page-filter {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+  }
+  .pf-btn {
+    padding: 6px 14px; border-radius: 16px;
+    border: 2px solid var(--gold); background: transparent;
+    color: var(--navy); font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .pf-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
+  .word-card {
+    background: white; border-radius: 12px;
+    padding: 14px 18px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(26,39,68,0.07);
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .word-card.hidden { display: none; }
+  .word-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--gold);
+    font-weight: 700; min-width: 28px; margin-top: 2px;
+  }
+  .word-info { flex: 1; }
+  .word-de { font-weight: 700; color: var(--navy); font-size: 1rem; margin-bottom: 3px; }
+  .word-art { font-size: 0.78rem; color: var(--gold); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .word-mean { font-size: 0.88rem; color: var(--text); margin-bottom: 5px; }
+  .word-ex { font-size: 0.82rem; color: var(--muted); font-style: italic; line-height: 1.4; border-left: 3px solid var(--soft); padding-left: 8px; }
+  .word-page {
+    font-size: 0.72rem; background: var(--soft);
+    color: var(--muted); padding: 3px 8px;
+    border-radius: 10px; white-space: nowrap; margin-top: 4px;
+    align-self: flex-start;
+  }
+
+  /* QUIZ */
+  .quiz-area { max-width: 500px; margin: 0 auto; }
+  .quiz-question {
+    background: white; border-radius: 16px;
+    padding: 24px 20px; box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+    margin-bottom: 16px;
+  }
+  .quiz-q-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .quiz-q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--navy); margin-bottom: 18px; line-height: 1.4;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    padding: 11px 16px; border-radius: 10px;
+    border: 2px solid #e0d8c8; background: var(--cream);
+    cursor: pointer; font-size: 0.92rem; text-align: left;
+    font-family: 'Source Sans 3', sans-serif; transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--navy); background: white; }
+  .quiz-opt.correct { border-color: var(--green); background: #edf7f2; color: var(--green); font-weight: 600; }
+  .quiz-opt.wrong { border-color: var(--red); background: #fdf0f0; color: var(--red); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback {
+    font-size: 0.87rem; margin-top: 12px;
+    padding: 10px 14px; border-radius: 8px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #edf7f2; color: var(--green); }
+  .quiz-feedback.bad { background: #fdf0f0; color: var(--red); }
+  .btn {
+    padding: 10px 28px; border-radius: 24px; border: none;
+    cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem; font-weight: 600; transition: all 0.2s;
+  }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: #253560; }
+  .quiz-score {
+    text-align: center; padding: 32px; background: white;
+    border-radius: 16px; box-shadow: 0 4px 24px rgba(26,39,68,0.10); display: none;
+  }
+  .score-number { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--navy); }
+  .score-label { color: var(--muted); margin-bottom: 20px; }
+  .progress-bar { height: 4px; background: var(--soft); border-radius: 4px; margin-bottom: 16px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s ease; }
+  .counter { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📐 Grammatik &amp; Wörter</h1>
+  <p>Sicher! B2 · Lektion 1: Freunde</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showView('woerter')">📚 Wörter</button>
+  <button class="tab" onclick="showView('genitiv')">📌 Genitiv</button>
+  <button class="tab" onclick="showView('konnektoren')">🔗 Konnektoren</button>
+  <button class="tab" onclick="showView('quiz')">🧠 Quiz</button>
+</div>
+
+<!-- ══ WÖRTER ══ -->
+<div id="view-woerter" class="view active">
+  <div class="section">
+    <div class="sec-title">📚 Wörter nach Seite</div>
+    <div class="page-filter">
+      <button class="pf-btn active" onclick="filterPage('all', this)">Alle</button>
+      <button class="pf-btn" onclick="filterPage('s13', this)">Seite 13</button>
+      <button class="pf-btn" onclick="filterPage('s14', this)">Seite 14</button>
+      <button class="pf-btn" onclick="filterPage('s15', this)">Seite 15+</button>
+    </div>
+    <div id="word-list"></div>
+  </div>
+</div>
+
+<!-- ══ GENITIV ══ -->
+<div id="view-genitiv" class="view">
+  <div class="section">
+    <div class="sec-title">📌 Was ist der Genitiv?</div>
+    <div class="rule-box">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px">
+        Der Genitiv zeigt Zugehörigkeit — er beantwortet die Frage: <strong>Wessen?</strong>
+      </p>
+      <div class="example-block">
+        <div class="ex-row">
+          <div class="ex-de">Das ist das Auto <span class="red">meines Vaters</span>.</div>
+          <div class="ex-fa">Wessen Auto? → meines Vaters</div>
+        </div>
+        <div class="ex-row">
+          <div class="ex-de">Wie viele <span class="red">Ihrer Freunde</span> treffen Sie regelmäßig?</div>
+          <div class="ex-fa">→ direkt aus dem Kursbuch Seite 14!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">📋 Artikel im Genitiv</div>
+    <div class="rule-box">
+      <table>
+        <tr><th>Genus</th><th>Bestimmt</th><th>Unbestimmt</th><th>Possessiv</th></tr>
+        <tr>
+          <td>Maskulin (der)</td>
+          <td><span class="hl">des</span> Freund<span class="red">es</span></td>
+          <td><span class="hl">eines</span> Freund<span class="red">es</span></td>
+          <td><span class="hl">meines</span> Freund<span class="red">es</span></td>
+        </tr>
+        <tr>
+          <td>Neutral (das)</td>
+          <td><span class="hl">des</span> Kind<span class="red">es</span></td>
+          <td><span class="hl">eines</span> Kind<span class="red">es</span></td>
+          <td><span class="hl">meines</span> Kind<span class="red">es</span></td>
+        </tr>
+        <tr>
+          <td>Feminin (die)</td>
+          <td><span class="hl">der</span> Frau</td>
+          <td><span class="hl">einer</span> Frau</td>
+          <td><span class="hl">meiner</span> Frau</td>
+        </tr>
+        <tr>
+          <td>Plural</td>
+          <td><span class="hl">der</span> Freunde</td>
+          <td>—</td>
+          <td><span class="hl">meiner</span> Freunde</td>
+        </tr>
+      </table>
+      <div class="tip-box">
+        <div>⚠️</div>
+        <div>Maskulin + Neutral: Nomen bekommt <strong>-(e)s</strong><br>
+        Kurze Wörter: des Mann<strong>es</strong> · Lange Wörter: des Computer<strong>s</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">🗣️ Genitiv vs. von + Dativ</div>
+    <div class="rule-box">
+      <table>
+        <tr><th>Genitiv (formell)</th><th>von + Dativ (gesprochen)</th></tr>
+        <tr><td>das Auto <span class="hl">meines Vaters</span></td><td>das Auto <span class="hl">von meinem Vater</span></td></tr>
+        <tr><td>die Meinung <span class="hl">der Leute</span></td><td>die Meinung <span class="hl">von den Leuten</span></td></tr>
+        <tr><td>der Freund <span class="hl">meiner Schwester</span></td><td>der Freund <span class="hl">von meiner Schwester</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KONNEKTOREN ══ -->
+<div id="view-konnektoren" class="view">
+  <div class="section">
+    <div class="sec-title">🔗 Zweiteilige Konnektoren</div>
+
+    <div class="kk-card" style="border-color:#2a6496">
+      <div class="kk-title">nicht nur … sondern auch</div>
+      <div class="kk-func">Aufzählung positiv</div>
+      <div class="kk-ex">Wir haben <span>nicht nur</span> zusammen gearbeitet, <span>sondern auch</span> zusammen gesungen.</div>
+    </div>
+    <div class="kk-card" style="border-color:#3a7d5a">
+      <div class="kk-title">sowohl … als auch</div>
+      <div class="kk-func">Aufzählung positiv</div>
+      <div class="kk-ex"><span>Sowohl</span> meine Mutter <span>als auch</span> mein Vater sprechen Deutsch.</div>
+    </div>
+    <div class="kk-card" style="border-color:#b94040">
+      <div class="kk-title">weder … noch</div>
+      <div class="kk-func">Aufzählung negativ</div>
+      <div class="kk-ex">Es macht <span>weder</span> ihm <span>noch</span> mir etwas aus.</div>
+    </div>
+    <div class="kk-card" style="border-color:#c9a84c">
+      <div class="kk-title">entweder … oder</div>
+      <div class="kk-func">Alternative</div>
+      <div class="kk-ex"><span>Entweder</span> gehen wir essen <span>oder</span> wir treffen uns zu Hause.</div>
+    </div>
+    <div class="kk-card" style="border-color:#6a3d7a">
+      <div class="kk-title">einerseits … andererseits</div>
+      <div class="kk-func">Gegensatz</div>
+      <div class="kk-ex"><span>Einerseits</span> würde ich ihn treffen, <span>andererseits</span> bringt das nichts.</div>
+    </div>
+    <div class="kk-card" style="border-color:#555">
+      <div class="kk-title">zwar … aber</div>
+      <div class="kk-func">Einschränkung</div>
+      <div class="kk-ex">Wir sehen uns <span>zwar</span> nicht oft, <span>aber</span> wir bleiben Freunde.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="view-quiz" class="view">
+  <div class="quiz-area">
+    <div id="quiz-card">
+      <div class="progress-bar"><div class="progress-fill" id="q-progress"></div></div>
+      <div class="counter" id="q-counter"></div>
+      <div class="quiz-question">
+        <div class="quiz-q-label">Frage <span id="q-num">1</span> von <span id="q-total"></span></div>
+        <div class="quiz-q-text" id="q-text"></div>
+        <div class="quiz-options" id="q-options"></div>
+        <div class="quiz-feedback" id="q-feedback"></div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()" style="display:none">Weiter →</button>
+      </div>
+    </div>
+    <div class="quiz-score" id="quiz-score">
+      <div class="score-number" id="score-num"></div>
+      <div class="score-label">Richtige Antworten</div>
+      <button class="btn btn-primary" onclick="startQuiz()">Nochmal versuchen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var words = [
+  { de: "der/die Bekannte", art: "Nomen", mean: "Jemand, den man kennt, aber kein enger Freund", ex: "Er ist ein Bekannter von mir.", page: "s13" },
+  { de: "die Herkunft", art: "Nomen", mean: "Woher jemand kommt, die Wurzeln", ex: "Zeichne drei Motive zu deiner Herkunft.", page: "s13" },
+  { de: "die Tätigkeit", art: "Nomen", mean: "Die Arbeit oder Beschäftigung", ex: "Was ist Ihre Tätigkeit?", page: "s13" },
+  { de: "vorstellen", art: "Verb", mean: "Jemanden oder sich selbst präsentieren", ex: "Ich stelle euch Fabio vor.", page: "s13" },
+  { de: "vermuten", art: "Verb", mean: "Etwas glauben, ohne es sicher zu wissen", ex: "Vermuten Sie, was die Bilder bedeuten.", page: "s13" },
+  { de: "die Urlaubsbekanntschaft", art: "Nomen", mean: "Jemand, den man im Urlaub kennengelernt hat", ex: "Gerard ist eine Urlaubsbekanntschaft.", page: "s14" },
+  { de: "der Schulfreund / die Schulfreundin", art: "Nomen", mean: "Ein Freund aus der Schulzeit", ex: "Ich habe nicht nur einen Schulfreund, sondern gleich sechs.", page: "s14" },
+  { de: "der Jugendfreund", art: "Nomen", mean: "Ein Freund aus der Jugendzeit", ex: "Helmut ist so etwas wie ein Jugendfreund.", page: "s14" },
+  { de: "hin- und hergerissen sein", art: "Redewendung", mean: "Unentschlossen sein zwischen zwei Gefühlen", ex: "Nun bin ich hin- und hergerissen.", page: "s14" },
+  { de: "aus den Augen verlieren", art: "Redewendung", mean: "Den Kontakt zu jemandem verlieren", ex: "Danach haben wir uns aus den Augen verloren.", page: "s14" },
+  { de: "Neuigkeiten austauschen", art: "Redewendung", mean: "Sich gegenseitig Neuigkeiten erzählen", ex: "Wir tauschen erst mal alle Neuigkeiten aus.", page: "s14" },
+  { de: "Tür an Tür wohnen", art: "Redewendung", mean: "Direkt nebenan wohnen", ex: "Wir haben Jahre lang Tür an Tür gewohnt.", page: "s14" },
+  { de: "einerseits … andererseits", art: "Konnektor", mean: "Auf der einen Seite … auf der anderen Seite", ex: "Einerseits möchte ich ihn sehen, andererseits bringt das nichts.", page: "s14" },
+  { de: "regelmäßig", art: "Adjektiv", mean: "In gleichmäßigen Abständen, oft", ex: "Wie viele Ihrer Freunde treffen Sie regelmäßig?", page: "s14" },
+  { de: "durch dick und dünn gehen", art: "Redewendung", mean: "In guten und schlechten Zeiten zusammenhalten", ex: "Auf echte Freunde kann man sich verlassen — durch dick und dünn.", page: "s14" },
+  { de: "pflegen", art: "Verb", mean: "Sich um etwas kümmern, erhalten", ex: "Man muss Freundschaften pflegen.", page: "s15" },
+  { de: "nachlassen", art: "Verb", mean: "Schwächer werden", ex: "Mit dem ersten Kind lassen manche Freundschaften nach.", page: "s15" },
+  { de: "sich auflösen", art: "Verb", mean: "Verschwinden, enden", ex: "Einige Freundschaften lösen sich ganz auf.", page: "s15" },
+  { de: "an Wert gewinnen", art: "Ausdruck", mean: "Wichtiger werden", ex: "Freundschaft gewinnt an Wert.", page: "s15" },
+  { de: "der Lebenszeuge", art: "Nomen", mean: "Jemand, der dein Leben miterlebt und kennt", ex: "Ich betrachte ihn als meinen Lebenszeugen.", page: "s15" }
+];
+
+var quizData = [
+  { q: "Das Buch ___ Lehrers liegt auf dem Tisch.", correct: "des", wrong: ["der", "dem", "die"], ex: "der Lehrer = maskulin → des Lehrers" },
+  { q: "Der Name ___ Frau ist Kerstin.", correct: "der", wrong: ["des", "dem", "die"], ex: "die Frau = feminin → der Frau" },
+  { q: "Das Zimmer ___ Kindes ist groß.", correct: "des", wrong: ["der", "dem", "einen"], ex: "das Kind = neutral → des Kindes" },
+  { q: "Wie viele ___ Freunde sprechen Deutsch?", correct: "Ihrer", wrong: ["Ihren", "Ihrem", "Ihre"], ex: "Plural Genitiv formell → Ihrer" },
+  { q: "Wir haben ___ nur geschrieben, ___ auch telefoniert.", correct: "nicht / sondern", wrong: ["weder / noch", "zwar / aber", "sowohl / als"], ex: "nicht nur … sondern auch = Aufzählung positiv" },
+  { q: "___ möchte ich kommen, ___ habe ich keine Zeit.", correct: "Einerseits / andererseits", wrong: ["Entweder / oder", "Weder / noch", "Zwar / aber"], ex: "einerseits … andererseits = Gegensatz" },
+  { q: "Es macht ___ mir ___ ihm etwas aus.", correct: "weder / noch", wrong: ["nicht / sondern", "sowohl / als", "entweder / oder"], ex: "weder … noch = Aufzählung negativ" },
+  { q: "Was bedeutet: aus den Augen verlieren?", correct: "Den Kontakt verlieren", wrong: ["Jemanden nicht mögen", "Zusammen schlafen", "Sich streiten"], ex: "aus den Augen verlieren = Kontakt verlieren" },
+  { q: "Die Hälfte ___ Studenten lernt Deutsch.", correct: "der", wrong: ["des", "dem", "die"], ex: "Studenten = Plural → der Studenten" },
+  { q: "Was bedeutet: durch dick und dünn gehen?", correct: "In guten und schlechten Zeiten zusammenhalten", wrong: ["Zusammen essen gehen", "Viel Sport machen", "Oft streiten"], ex: "durch dick und dünn = immer fuereinander da sein" }
+];
+
+var qIndex = 0;
+var score = 0;
+var currentCorrect = "";
+var currentPage = "all";
+
+function renderWords() {
+  var html = "";
+  var count = 0;
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    var hidden = (currentPage !== "all" && w.page !== currentPage) ? " hidden" : "";
+    count++;
+    html += '<div class="word-card' + hidden + '" data-page="' + w.page + '">';
+    html += '<div class="word-num">' + count + '</div>';
+    html += '<div class="word-info">';
+    html += '<div class="word-de">' + w.de + '</div>';
+    html += '<div class="word-art">' + w.art + '</div>';
+    html += '<div class="word-mean">' + w.mean + '</div>';
+    html += '<div class="word-ex">' + w.ex + '</div>';
+    html += '</div>';
+    var pageLabel = w.page === "s13" ? "Seite 13" : w.page === "s14" ? "Seite 14" : "Seite 15+";
+    html += '<div class="word-page">' + pageLabel + '</div>';
+    html += '</div>';
+  }
+  document.getElementById("word-list").innerHTML = html;
+}
+
+function filterPage(page, btn) {
+  currentPage = page;
+  var cards = document.querySelectorAll(".word-card");
+  for (var i = 0; i < cards.length; i++) {
+    if (page === "all" || cards[i].getAttribute("data-page") === page) {
+      cards[i].classList.remove("hidden");
+    } else {
+      cards[i].classList.add("hidden");
+    }
+  }
+  var btns = document.querySelectorAll(".pf-btn");
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove("active"); }
+  btn.classList.add("active");
+}
+
+function startQuiz() {
+  qIndex = 0; score = 0;
+  document.getElementById("quiz-score").style.display = "none";
+  document.getElementById("quiz-card").style.display = "block";
+  document.getElementById("q-total").textContent = quizData.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  var q = quizData[qIndex];
+  currentCorrect = q.correct;
+  document.getElementById("q-num").textContent = qIndex + 1;
+  document.getElementById("q-counter").textContent = (qIndex + 1) + " / " + quizData.length;
+  document.getElementById("q-progress").style.width = ((qIndex + 1) / quizData.length * 100) + "%";
+  document.getElementById("q-text").textContent = q.q;
+  document.getElementById("q-feedback").className = "quiz-feedback";
+  document.getElementById("btn-next").style.display = "none";
+  var opts = [q.correct, q.wrong[0], q.wrong[1], q.wrong[2]];
+  opts.sort(function() { return Math.random() - 0.5; });
+  var html = "";
+  for (var i = 0; i < opts.length; i++) {
+    html += '<button class="quiz-opt" onclick="answer(this)">' + opts[i] + '</button>';
+  }
+  document.getElementById("q-options").innerHTML = html;
+}
+
+function answer(btn) {
+  var chosen = btn.textContent.trim();
+  var buttons = document.querySelectorAll(".quiz-opt");
+  for (var i = 0; i < buttons.length; i++) { buttons[i].disabled = true; }
+  var q = quizData[qIndex];
+  var fb = document.getElementById("q-feedback");
+  if (chosen === currentCorrect) {
+    btn.classList.add("correct");
+    fb.textContent = "Richtig! " + q.ex;
+    fb.className = "quiz-feedback show ok";
+    score++;
+  } else {
+    btn.classList.add("wrong");
+    for (var j = 0; j < buttons.length; j++) {
+      if (buttons[j].textContent.trim() === currentCorrect) { buttons[j].classList.add("correct"); }
+    }
+    fb.textContent = "Falsch. Richtig: " + currentCorrect + " — " + q.ex;
+    fb.className = "quiz-feedback show bad";
+  }
+  document.getElementById("btn-next").style.display = "inline-block";
+}
+
+function nextQuestion() {
+  qIndex++;
+  if (qIndex >= quizData.length) {
+    document.getElementById("quiz-card").style.display = "none";
+    document.getElementById("quiz-score").style.display = "block";
+    document.getElementById("score-num").textContent = score + " / " + quizData.length;
+  } else { renderQuestion(); }
+}
+
+function showView(v) {
+  var views = ["woerter", "genitiv", "konnektoren", "quiz"];
+  for (var i = 0; i < views.length; i++) {
+    var el = document.getElementById("view-" + views[i]);
+    if (views[i] === v) { el.classList.add("active"); } else { el.classList.remove("active"); }
+  }
+  var tabs = document.querySelectorAll(".tab");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle("active", views[i] === v);
+  }
+  if (v === "quiz") startQuiz();
+}
+
+renderWords();
+</script>
+</body>
+</html>
