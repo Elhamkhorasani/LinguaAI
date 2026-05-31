@@ -16,10 +16,23 @@
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="flagblur">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
   </defs>
 
   <!-- Background -->
   <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+
+  <!-- ══ GERMAN FLAG — subtle, blurred, background ══ -->
+  <g opacity="0.18" filter="url(#flagblur)">
+    <rect x="30" y="30" width="512" height="155" fill="#222222"/>
+    <rect x="30" y="185" width="512" height="155" fill="#cc0000"/>
+    <rect x="30" y="340" width="512" height="155" fill="#ffcc00"/>
+  </g>
+
+  <!-- Dark overlay to keep background dark -->
+  <rect width="512" height="512" rx="100" fill="#080d1f" opacity="0.72"/>
 
   <!-- Subtle grid -->
   <line x1="0" y1="170" x2="512" y2="170" stroke="#3a5aaa" stroke-width="0.6" opacity="0.12"/>
@@ -27,7 +40,7 @@
   <line x1="170" y1="0" x2="170" y2="512" stroke="#3a5aaa" stroke-width="0.6" opacity="0.12"/>
   <line x1="340" y1="0" x2="340" y2="512" stroke="#3a5aaa" stroke-width="0.6" opacity="0.12"/>
 
-  <!-- Stars scattered -->
+  <!-- Stars -->
   <circle cx="60" cy="55" r="1.8" fill="white" opacity="0.7"/>
   <circle cx="180" cy="35" r="1.2" fill="white" opacity="0.5"/>
   <circle cx="440" cy="65" r="2" fill="#c9a84c" opacity="0.8"/>
@@ -39,35 +52,18 @@
   <circle cx="130" cy="470" r="1.2" fill="white" opacity="0.4"/>
   <circle cx="380" cy="480" r="1.5" fill="#c9a84c" opacity="0.5"/>
 
-  <!-- ══ GERMAN FLAG — top right, rounded ══ -->
-  <rect x="340" y="36" width="136" height="30" rx="6" fill="#222222"/>
-  <rect x="340" y="66" width="136" height="30" rx="0" fill="#cc0000"/>
-  <rect x="340" y="96" width="136" height="30" rx="0" fill="#ffcc00"/>
-  <!-- flag frame -->
-  <rect x="340" y="36" width="136" height="90" rx="6" fill="none" stroke="white" stroke-width="1.5" opacity="0.25"/>
-
-  <!-- ══ AI BRAIN NETWORK — center ══ -->
-  <!-- Outer glow ring -->
+  <!-- ══ AI BRAIN NETWORK ══ -->
   <circle cx="220" cy="230" r="148" fill="none" stroke="#4488ff" stroke-width="1.5" opacity="0.2" filter="url(#glow)"/>
   <circle cx="220" cy="230" r="125" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.15"/>
-
-  <!-- Brain outline shape (stylized) -->
   <ellipse cx="220" cy="225" rx="95" ry="85" fill="#0d1535" opacity="0.9"/>
   <ellipse cx="220" cy="225" rx="95" ry="85" fill="none" stroke="#4488ff" stroke-width="2" opacity="0.6" filter="url(#softglow)"/>
-
-  <!-- Brain internal divider -->
   <path d="M220 145 Q225 185 220 225 Q215 265 220 305" stroke="#4488ff" stroke-width="1.5" fill="none" opacity="0.4"/>
-
-  <!-- Left brain curves -->
   <path d="M160 200 Q150 185 165 175 Q175 168 185 178" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.6"/>
   <path d="M155 230 Q140 218 148 205" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.5"/>
   <path d="M160 258 Q145 248 150 235" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.5"/>
-  <!-- Right brain curves -->
   <path d="M280 200 Q290 185 275 175 Q265 168 255 178" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.6"/>
   <path d="M285 230 Q300 218 292 205" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.5"/>
   <path d="M280 258 Q295 248 290 235" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.5"/>
-
-  <!-- Network nodes inside brain -->
   <circle cx="195" cy="195" r="5" fill="#4488ff" opacity="0.9" filter="url(#softglow)"/>
   <circle cx="245" cy="195" r="5" fill="#4488ff" opacity="0.9" filter="url(#softglow)"/>
   <circle cx="175" cy="235" r="4" fill="#c9a84c" opacity="0.9" filter="url(#softglow)"/>
@@ -75,8 +71,6 @@
   <circle cx="195" cy="270" r="5" fill="#4488ff" opacity="0.9" filter="url(#softglow)"/>
   <circle cx="245" cy="270" r="5" fill="#4488ff" opacity="0.9" filter="url(#softglow)"/>
   <circle cx="220" cy="225" r="7" fill="white" opacity="0.95" filter="url(#glow)"/>
-
-  <!-- Network connections inside brain -->
   <line x1="220" y1="225" x2="195" y2="195" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"/>
   <line x1="220" y1="225" x2="245" y2="195" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"/>
   <line x1="220" y1="225" x2="175" y2="235" stroke="#4488ff" stroke-width="1.5" opacity="0.7"/>
@@ -85,10 +79,6 @@
   <line x1="220" y1="225" x2="245" y2="270" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"/>
   <line x1="195" y1="195" x2="245" y2="195" stroke="#4488ff" stroke-width="1" opacity="0.4"/>
   <line x1="195" y1="270" x2="245" y2="270" stroke="#4488ff" stroke-width="1" opacity="0.4"/>
-  <line x1="195" y1="195" x2="195" y2="270" stroke="#4488ff" stroke-width="1" opacity="0.3"/>
-  <line x1="245" y1="195" x2="245" y2="270" stroke="#4488ff" stroke-width="1" opacity="0.3"/>
-
-  <!-- Signal pulses outside brain -->
   <line x1="315" y1="225" x2="360" y2="225" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
   <line x1="80" y1="225" x2="125" y2="225" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
   <line x1="220" y1="77" x2="220" y2="110" stroke="#c9a84c" stroke-width="1.5" opacity="0.5"/>
@@ -97,18 +87,11 @@
   <circle cx="220" cy="72" r="3.5" fill="#c9a84c" opacity="0.7"/>
 
   <!-- ══ TEXT ══ -->
-  <!-- LinguaAI text -->
   <text x="256" y="390" font-family="Georgia,serif" font-size="58" font-weight="bold"
         fill="url(#gold)" text-anchor="middle" letter-spacing="1" filter="url(#softglow)">LinguaAI</text>
-
-  <!-- Tagline -->
   <text x="256" y="425" font-family="'Courier New',monospace" font-size="20"
         fill="#4488ff" text-anchor="middle" letter-spacing="5" opacity="0.75">DEUTSCH LERNEN</text>
-
-  <!-- Bottom separator line -->
   <rect x="90" y="438" width="332" height="1.5" rx="1" fill="url(#gold)" opacity="0.3"/>
-
-  <!-- Version tag -->
   <text x="256" y="468" font-family="'Courier New',monospace" font-size="16"
         fill="white" text-anchor="middle" letter-spacing="3" opacity="0.35">AI-POWERED LEARNING</text>
 </svg>
