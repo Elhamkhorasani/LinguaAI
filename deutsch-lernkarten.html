@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Lernkarten – Lektion 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --gold: #c9a84c;
+    --cream: #fdf6e9;
+    --soft: #f0e9d6;
+    --text: #2c2c2c;
+    --muted: #7a7060;
+    --green: #3a7d5a;
+    --red: #b94040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+  }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--navy);
+  }
+  header p { color: var(--muted); font-size: 0.95rem; margin-top: 6px; }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid var(--navy);
+    background: transparent;
+    color: var(--navy);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab.active, .tab:hover { background: var(--navy); color: var(--cream); }
+
+  #view-cards { display: block; }
+  #view-list  { display: none; }
+  #view-quiz  { display: none; }
+
+  .card-area { max-width: 480px; margin: 0 auto; }
+  .progress-bar {
+    height: 4px; background: var(--soft);
+    border-radius: 4px; margin-bottom: 20px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--gold);
+    border-radius: 4px; transition: width 0.4s ease;
+  }
+  .counter { text-align: center; font-size: 0.85rem; color: var(--muted); margin-bottom: 14px; }
+  .card {
+    background: white;
+    border-radius: 16px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 28px;
+    box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(26,39,68,0.14); }
+  .card-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .card-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; color: var(--navy);
+    text-align: center; line-height: 1.3;
+  }
+  .card-back { display: none; width: 100%; text-align: center; }
+  .card.flipped .card-front { display: none; }
+  .card.flipped .card-back  { display: block; }
+  .card-meaning { font-size: 1.05rem; color: var(--text); margin-bottom: 12px; font-weight: 600; }
+  .card-example {
+    font-size: 0.88rem; color: var(--muted); font-style: italic;
+    line-height: 1.5; border-left: 3px solid var(--gold);
+    padding-left: 12px; text-align: left; margin-top: 8px;
+  }
+  .card-hint { position: absolute; bottom: 14px; font-size: 0.75rem; color: #bbb; }
+  .card-nav {
+    display: flex; justify-content: center;
+    align-items: center; gap: 16px; margin-top: 24px;
+  }
+  .btn {
+    padding: 10px 28px; border-radius: 24px; border: none;
+    cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem; font-weight: 600; transition: all 0.2s;
+  }
+  .btn-outline {
+    background: transparent; border: 2px solid var(--navy); color: var(--navy);
+  }
+  .btn-outline:hover { background: var(--navy); color: white; }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: #253560; }
+  .btn-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; background: var(--soft); border: none;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .btn-icon:hover { background: #e0d8c8; }
+
+  .list-section { max-width: 640px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--navy);
+    margin: 24px 0 12px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .vocab-row {
+    display: flex; align-items: flex-start;
+    gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--soft);
+  }
+  .vocab-row:last-child { border-bottom: none; }
+  .vocab-de { font-weight: 600; color: var(--navy); min-width: 190px; font-size: 0.9rem; }
+  .vocab-info { flex: 1; }
+  .vocab-meaning { font-size: 0.88rem; color: var(--text); margin-bottom: 3px; }
+  .vocab-ex { font-size: 0.8rem; color: var(--muted); font-style: italic; line-height: 1.4; }
+
+  .quiz-area { max-width: 500px; margin: 0 auto; }
+  .quiz-question {
+    background: white; border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+    margin-bottom: 20px;
+  }
+  .quiz-q-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  .quiz-q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--navy); margin-bottom: 20px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    padding: 12px 18px; border-radius: 10px;
+    border: 2px solid #e0d8c8; background: var(--cream);
+    cursor: pointer; font-size: 0.95rem; text-align: left;
+    font-family: 'Source Sans 3', sans-serif; transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--navy); background: white; }
+  .quiz-opt.correct { border-color: var(--green); background: #edf7f2; color: var(--green); }
+  .quiz-opt.wrong   { border-color: var(--red);   background: #fdf0f0; color: var(--red); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback {
+    font-size: 0.9rem; margin-top: 14px;
+    padding: 10px 14px; border-radius: 8px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok  { background: #edf7f2; color: var(--green); }
+  .quiz-feedback.bad { background: #fdf0f0; color: var(--red); }
+  .quiz-score {
+    text-align: center; padding: 32px; background: white;
+    border-radius: 16px; box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+    display: none;
+  }
+  .score-number { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--navy); }
+  .score-label { color: var(--muted); margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇩🇪 Lernkarten</h1>
+  <p>Sicher! B2 · Lektion 1: Freunde · Seite 14</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showView('cards')">🃏 Karten</button>
+  <button class="tab" onclick="showView('list')">📋 Liste</button>
+  <button class="tab" onclick="showView('quiz')">🧠 Quiz</button>
+</div>
+
+<div id="view-cards">
+  <div class="card-area">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="counter" id="counter">1 / 12</div>
+    <div class="card" id="flashcard" onclick="flipCard()">
+      <div class="card-front">
+        <div class="card-label">Deutsch</div>
+        <div class="card-word" id="card-word"></div>
+      </div>
+      <div class="card-back">
+        <div class="card-meaning" id="card-meaning"></div>
+        <div class="card-example" id="card-example"></div>
+      </div>
+      <span class="card-hint">Tippen zum Umdrehen</span>
+    </div>
+    <div class="card-nav">
+      <button class="btn-icon" onclick="prevCard()">←</button>
+      <button class="btn btn-outline" onclick="flipCard()">Umdrehen</button>
+      <button class="btn-icon" onclick="nextCard()">→</button>
+    </div>
+  </div>
+</div>
+
+<div id="view-list">
+  <div class="list-section">
+    <div class="section-title">📌 Redewendungen</div>
+    <div id="list-idioms"></div>
+    <div class="section-title">📘 Vokabular</div>
+    <div id="list-vocab"></div>
+    <div class="section-title">📐 Grammatik – Genitiv</div>
+    <div id="list-grammar"></div>
+  </div>
+</div>
+
+<div id="view-quiz">
+  <div class="quiz-area">
+    <div id="quiz-card">
+      <div class="quiz-question">
+        <div class="quiz-q-label">Frage <span id="q-num">1</span> von <span id="q-total"></span></div>
+        <div class="quiz-q-text" id="q-text"></div>
+        <div class="quiz-options" id="q-options"></div>
+        <div class="quiz-feedback" id="q-feedback"></div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()" style="display:none">Weiter →</button>
+      </div>
+    </div>
+    <div class="quiz-score" id="quiz-score">
+      <div class="score-number" id="score-num"></div>
+      <div class="score-label">Richtige Antworten</div>
+      <button class="btn btn-primary" onclick="startQuiz()">Nochmal versuchen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var data = [
+  {
+    word: "hin- und hergerissen sein",
+    meaning: "Unentschlossen sein, zwei gegensätzliche Gefühle haben",
+    example: "Einerseits möchte ich ihn treffen, andererseits weiß ich nicht. Ich bin hin- und hergerissen.",
+    category: "idiom"
+  },
+  {
+    word: "aus den Augen verlieren",
+    meaning: "Den Kontakt zu jemandem verlieren",
+    example: "Nach dem Umzug haben wir uns leider aus den Augen verloren.",
+    category: "idiom"
+  },
+  {
+    word: "durch dick und dünn gehen",
+    meaning: "In guten und schlechten Zeiten zusammenhalten",
+    example: "Echte Freunde gehen mit einem durch dick und dünn.",
+    category: "idiom"
+  },
+  {
+    word: "Neuigkeiten austauschen",
+    meaning: "Sich gegenseitig über Neuigkeiten erzählen",
+    example: "Wenn wir uns sehen, tauschen wir erst mal alle Neuigkeiten aus.",
+    category: "idiom"
+  },
+  {
+    word: "Tür an Tür wohnen",
+    meaning: "Direkt nebenan wohnen",
+    example: "Wir haben Jahre lang Tür an Tür gewohnt.",
+    category: "idiom"
+  },
+  {
+    word: "einerseits … andererseits",
+    meaning: "Auf der einen Seite … auf der anderen Seite",
+    example: "Einerseits würde ich ihn gern sehen, andererseits bringt das nichts.",
+    category: "idiom"
+  },
+  {
+    word: "der/die Bekannte",
+    meaning: "Jemand, den man kennt, aber kein enger Freund",
+    example: "Er ist ein Bekannter von mir – wir kennen uns vom Kurs.",
+    category: "vocab"
+  },
+  {
+    word: "die Urlaubsbekanntschaft",
+    meaning: "Jemand, den man im Urlaub kennengelernt hat",
+    example: "Gérard ist eine Urlaubsbekanntschaft aus Spanien.",
+    category: "vocab"
+  },
+  {
+    word: "regelmäßig",
+    meaning: "In gleichmäßigen Abständen, oft",
+    example: "Wir treffen uns regelmäßig, jeden Freitag.",
+    category: "vocab"
+  },
+  {
+    word: "der Kontakt ist nicht abgerissen",
+    meaning: "Man ist in Kontakt geblieben",
+    example: "Obwohl wir weit weg wohnen, ist der Kontakt nie abgerissen.",
+    category: "vocab"
+  },
+  {
+    word: "Genitiv – maskulin / neutral",
+    meaning: "des + Nomen + -(e)s",
+    example: "Das Auto des Mannes. Der Name des Kindes.",
+    category: "grammar"
+  },
+  {
+    word: "Genitiv – feminin / Plural",
+    meaning: "der + Nomen (keine Endung am Nomen)",
+    example: "Der Name der Frau. Wie viele Ihrer Freunde?",
+    category: "grammar"
+  }
+];
+
+var quizData = [
+  {
+    q: "Was bedeutet: hin- und hergerissen sein?",
+    correct: "Unentschlossen zwischen zwei Gefühlen",
+    wrong: ["Sehr glücklich sein", "Müde sein", "Jemanden vermissen"]
+  },
+  {
+    q: "Wie sagt man: den Kontakt verlieren?",
+    correct: "Aus den Augen verlieren",
+    wrong: ["Durch dick und dünn gehen", "Tür an Tür wohnen", "Neuigkeiten austauschen"]
+  },
+  {
+    q: "Das Auto ___ Mannes – welcher Artikel (Genitiv)?",
+    correct: "des",
+    wrong: ["der", "dem", "den"]
+  },
+  {
+    q: "Was ist eine Urlaubsbekanntschaft?",
+    correct: "Jemand, den man im Urlaub kennengelernt hat",
+    wrong: ["Ein enger Freund aus der Schulzeit", "Ein Arbeitskollege", "Ein Nachbar"]
+  },
+  {
+    q: "Einerseits möchte ich kommen, ___ habe ich keine Zeit.",
+    correct: "andererseits",
+    wrong: ["einerseits", "sondern", "trotzdem"]
+  },
+  {
+    q: "Was bedeutet: durch dick und dünn gehen?",
+    correct: "In guten und schlechten Zeiten zusammenhalten",
+    wrong: ["Zusammen Sport machen", "Viel essen", "Oft streiten"]
+  },
+  {
+    q: "Die Meinung ___ Lehrerin – welcher Artikel (Genitiv)?",
+    correct: "der",
+    wrong: ["des", "dem", "die"]
+  },
+  {
+    q: "Was bedeutet: Neuigkeiten austauschen?",
+    correct: "Sich gegenseitig Neuigkeiten erzählen",
+    wrong: ["Nachrichten lesen", "Zeitung kaufen", "Sich streiten"]
+  }
+];
+
+var cardIndex = 0;
+var flipped = false;
+var qIndex = 0;
+var score = 0;
+var currentCorrect = "";
+
+function renderCard() {
+  var d = data[cardIndex];
+  document.getElementById("card-word").textContent = d.word;
+  document.getElementById("card-meaning").textContent = d.meaning;
+  document.getElementById("card-example").textContent = d.example;
+  document.getElementById("counter").textContent = (cardIndex + 1) + " / " + data.length;
+  document.getElementById("progress").style.width = ((cardIndex + 1) / data.length * 100) + "%";
+  var card = document.getElementById("flashcard");
+  card.classList.remove("flipped");
+  flipped = false;
+}
+
+function flipCard() {
+  flipped = !flipped;
+  document.getElementById("flashcard").classList.toggle("flipped", flipped);
+}
+
+function nextCard() {
+  cardIndex = (cardIndex + 1) % data.length;
+  renderCard();
+}
+
+function prevCard() {
+  cardIndex = (cardIndex - 1 + data.length) % data.length;
+  renderCard();
+}
+
+function renderList() {
+  var cats = ["idiom", "vocab", "grammar"];
+  var ids = ["list-idioms", "list-vocab", "list-grammar"];
+  for (var i = 0; i < cats.length; i++) {
+    var html = "";
+    for (var j = 0; j < data.length; j++) {
+      if (data[j].category === cats[i]) {
+        html += '<div class="vocab-row">';
+        html += '<div class="vocab-de">' + data[j].word + '</div>';
+        html += '<div class="vocab-info">';
+        html += '<div class="vocab-meaning">' + data[j].meaning + '</div>';
+        html += '<div class="vocab-ex">' + data[j].example + '</div>';
+        html += '</div></div>';
+      }
+    }
+    document.getElementById(ids[i]).innerHTML = html;
+  }
+}
+
+function startQuiz() {
+  qIndex = 0;
+  score = 0;
+  document.getElementById("quiz-score").style.display = "none";
+  document.getElementById("quiz-card").style.display = "block";
+  document.getElementById("q-total").textContent = quizData.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  var q = quizData[qIndex];
+  currentCorrect = q.correct;
+  document.getElementById("q-num").textContent = qIndex + 1;
+  document.getElementById("q-text").textContent = q.q;
+  document.getElementById("q-feedback").className = "quiz-feedback";
+  document.getElementById("btn-next").style.display = "none";
+
+  var opts = [q.correct, q.wrong[0], q.wrong[1], q.wrong[2]];
+  opts.sort(function() { return Math.random() - 0.5; });
+
+  var html = "";
+  for (var i = 0; i < opts.length; i++) {
+    html += '<button class="quiz-opt" onclick="answer(this)">' + opts[i] + '</button>';
+  }
+  document.getElementById("q-options").innerHTML = html;
+}
+
+function answer(btn) {
+  var chosen = btn.textContent.trim();
+  var buttons = document.querySelectorAll(".quiz-opt");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = true;
+  }
+  var fb = document.getElementById("q-feedback");
+  if (chosen === currentCorrect) {
+    btn.classList.add("correct");
+    fb.textContent = "✅ Richtig!";
+    fb.className = "quiz-feedback show ok";
+    score++;
+  } else {
+    btn.classList.add("wrong");
+    for (var j = 0; j < buttons.length; j++) {
+      if (buttons[j].textContent.trim() === currentCorrect) {
+        buttons[j].classList.add("correct");
+      }
+    }
+    fb.textContent = "❌ Falsch. Richtig: " + currentCorrect;
+    fb.className = "quiz-feedback show bad";
+  }
+  document.getElementById("btn-next").style.display = "inline-block";
+}
+
+function nextQuestion() {
+  qIndex++;
+  if (qIndex >= quizData.length) {
+    document.getElementById("quiz-card").style.display = "none";
+    document.getElementById("quiz-score").style.display = "block";
+    document.getElementById("score-num").textContent = score + " / " + quizData.length;
+  } else {
+    renderQuestion();
+  }
+}
+
+function showView(v) {
+  document.getElementById("view-cards").style.display = v === "cards" ? "block" : "none";
+  document.getElementById("view-list").style.display  = v === "list"  ? "block" : "none";
+  document.getElementById("view-quiz").style.display  = v === "quiz"  ? "block" : "none";
+  var tabs = document.querySelectorAll(".tab");
+  var views = ["cards", "list", "quiz"];
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle("active", views[i] === v);
+  }
+  if (v === "quiz") startQuiz();
+  if (v === "list") renderList();
+}
+
+renderCard();
+</script>
+</body>
+</html>
