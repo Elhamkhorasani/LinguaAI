@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LinguaAI">
+<title>LinguaAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --gold: #c9a84c;
+    --cream: #fdf6e9;
+    --soft: #f0e9d6;
+    --text: #2c2c2c;
+    --muted: #7a7060;
+    --green: #3a7d5a;
+    --red: #b94040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ── TOP HEADER ── */
+  .top-header {
+    background: var(--navy);
+    color: white;
+    padding: 52px 20px 16px;
+    text-align: center;
+  }
+  .top-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+  }
+  .top-header p { font-size: 0.82rem; opacity: 0.7; margin-top: 4px; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--navy);
+    display: flex;
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 100;
+  }
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 4px;
+  }
+  .nav-btn.active { color: var(--gold); }
+  .nav-icon { font-size: 1.4rem; }
+
+  /* ── VIEWS ── */
+  .view { display: none; padding: 20px 16px; }
+  .view.active { display: block; }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--navy);
+    margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  /* ── CARDS ── */
+  .card-area { max-width: 480px; margin: 0 auto; }
+  .progress-bar { height: 4px; background: var(--soft); border-radius: 4px; margin-bottom: 16px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+  .counter { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; }
+
+  .card {
+    background: white; border-radius: 16px;
+    min-height: 220px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 32px 24px; box-shadow: 0 4px 20px rgba(26,39,68,0.10);
+    cursor: pointer; position: relative; user-select: none;
+    transition: transform 0.15s;
+  }
+  .card:active { transform: scale(0.98); }
+  .card-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .card-word { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); text-align: center; line-height: 1.3; }
+  .card-back { display: none; width: 100%; text-align: center; }
+  .card.flipped .card-front { display: none; }
+  .card.flipped .card-back { display: block; }
+  .card-meaning { font-size: 1rem; color: var(--text); margin-bottom: 10px; font-weight: 600; }
+  .card-example { font-size: 0.85rem; color: var(--muted); font-style: italic; line-height: 1.5; border-left: 3px solid var(--gold); padding-left: 10px; text-align: left; }
+  .card-hint { position: absolute; bottom: 12px; font-size: 0.72rem; color: #bbb; }
+
+  .card-nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 20px; }
+  .btn-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--soft); border: none; cursor: pointer; }
+  .btn { padding: 10px 24px; border-radius: 24px; border: none; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 600; }
+  .btn-outline { background: transparent; border: 2px solid var(--navy); color: var(--navy); }
+  .btn-primary { background: var(--navy); color: white; }
+
+  /* ── FILTER TABS ── */
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-btn {
+    padding: 6px 14px; border-radius: 16px;
+    border: 2px solid var(--gold); background: transparent;
+    color: var(--navy); font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+  }
+  .filter-btn.active { background: var(--gold); color: white; }
+
+  /* ── WORD CARDS ── */
+  .word-card {
+    background: white; border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(26,39,68,0.07);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .word-card.hidden { display: none; }
+  .word-num { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); font-weight: 700; min-width: 24px; margin-top: 2px; }
+  .word-info { flex: 1; }
+  .word-de { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; }
+  .word-art { font-size: 0.72rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .word-mean { font-size: 0.85rem; color: var(--text); margin-bottom: 4px; }
+  .word-ex { font-size: 0.78rem; color: var(--muted); font-style: italic; line-height: 1.4; border-left: 3px solid var(--soft); padding-left: 8px; }
+  .word-page { font-size: 0.68rem; background: var(--soft); color: var(--muted); padding: 2px 8px; border-radius: 10px; white-space: nowrap; margin-top: 4px; align-self: flex-start; }
+
+  /* ── GRAMMAR ── */
+  .rule-box { background: white; border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(26,39,68,0.08); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+  th { background: var(--navy); color: white; padding: 8px 10px; text-align: left; font-size: 0.78rem; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--soft); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #faf7f0; }
+  .hl { color: var(--navy); font-weight: 700; }
+  .red { color: var(--red); font-weight: 700; }
+  .ex-block { background: #f8f4eb; border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-top: 10px; }
+  .ex-de { color: var(--navy); font-weight: 600; font-size: 0.88rem; margin-bottom: 3px; }
+  .ex-fa { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+  .tip-box { background: #e8f4fd; border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-size: 0.82rem; color: #1a4a7a; }
+  .kk-card { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(26,39,68,0.07); border-left: 5px solid var(--gold); }
+  .kk-title { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; }
+  .kk-func { font-size: 0.74rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .kk-ex { font-size: 0.86rem; font-style: italic; color: var(--text); line-height: 1.5; }
+  .kk-ex span { color: var(--navy); font-weight: 700; font-style: normal; }
+
+  /* ── SUB TABS ── */
+  .sub-tabs { display: flex; gap: 6px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
+  .sub-tab {
+    padding: 6px 14px; border-radius: 16px; white-space: nowrap;
+    border: 2px solid var(--navy); background: transparent;
+    color: var(--navy); font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+  }
+  .sub-tab.active { background: var(--navy); color: white; }
+  .sub-view { display: none; }
+  .sub-view.active { display: block; }
+
+  /* ── QUIZ ── */
+  .quiz-q {
+    background: white; border-radius: 16px;
+    padding: 22px 18px; box-shadow: 0 4px 20px rgba(26,39,68,0.10); margin-bottom: 14px;
+  }
+  .quiz-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .quiz-text { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 16px; line-height: 1.4; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    padding: 11px 14px; border-radius: 10px;
+    border: 2px solid #e0d8c8; background: var(--cream);
+    cursor: pointer; font-size: 0.9rem; text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .quiz-opt.correct { border-color: var(--green); background: #edf7f2; color: var(--green); font-weight: 600; }
+  .quiz-opt.wrong { border-color: var(--red); background: #fdf0f0; color: var(--red); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-fb { font-size: 0.84rem; margin-top: 10px; padding: 10px 12px; border-radius: 8px; display: none; }
+  .quiz-fb.show { display: block; }
+  .quiz-fb.ok { background: #edf7f2; color: var(--green); }
+  .quiz-fb.bad { background: #fdf0f0; color: var(--red); }
+  .quiz-score { text-align: center; padding: 32px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(26,39,68,0.10); display: none; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--navy); }
+  .score-lbl { color: var(--muted); margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<div class="top-header">
+  <h1>🇩🇪 LinguaAI</h1>
+  <p>Sicher! B2 · Lektion 1: Freunde</p>
+</div>
+
+<!-- ══ LERNKARTEN ══ -->
+<div id="view-karten" class="view active">
+  <div class="card-area">
+    <div class="progress-bar"><div class="progress-fill" id="c-progress"></div></div>
+    <div class="counter" id="c-counter">1 / 12</div>
+    <div class="card" id="flashcard" onclick="flipCard()">
+      <div class="card-front">
+        <div class="card-label">Deutsch</div>
+        <div class="card-word" id="c-word"></div>
+      </div>
+      <div class="card-back">
+        <div class="card-meaning" id="c-meaning"></div>
+        <div class="card-example" id="c-example"></div>
+      </div>
+      <span class="card-hint">Tippen zum Umdrehen</span>
+    </div>
+    <div class="card-nav">
+      <button class="btn-icon" onclick="prevCard()">←</button>
+      <button class="btn btn-outline" onclick="flipCard()">Umdrehen</button>
+      <button class="btn-icon" onclick="nextCard()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WÖRTER ══ -->
+<div id="view-woerter" class="view">
+  <div class="sec-title">📚 Wörter nach Seite</div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterPage('all',this)">Alle</button>
+    <button class="filter-btn" onclick="filterPage('s13',this)">Seite 13</button>
+    <button class="filter-btn" onclick="filterPage('s14',this)">Seite 14</button>
+    <button class="filter-btn" onclick="filterPage('s15',this)">Seite 15+</button>
+  </div>
+  <div id="word-list"></div>
+</div>
+
+<!-- ══ GRAMMATIK ══ -->
+<div id="view-grammatik" class="view">
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSub('genitiv',this)">📌 Genitiv</button>
+    <button class="sub-tab" onclick="showSub('konnektoren',this)">🔗 Konnektoren</button>
+  </div>
+
+  <div id="sub-genitiv" class="sub-view active">
+    <div class="rule-box">
+      <div class="sec-title">Genitiv — Wessen?</div>
+      <table>
+        <tr><th>Genus</th><th>Bestimmt</th><th>Possessiv</th></tr>
+        <tr><td>Maskulin</td><td><span class="hl">des</span> Freund<span class="red">es</span></td><td><span class="hl">meines</span> Freund<span class="red">es</span></td></tr>
+        <tr><td>Neutral</td><td><span class="hl">des</span> Kind<span class="red">es</span></td><td><span class="hl">meines</span> Kind<span class="red">es</span></td></tr>
+        <tr><td>Feminin</td><td><span class="hl">der</span> Frau</td><td><span class="hl">meiner</span> Frau</td></tr>
+        <tr><td>Plural</td><td><span class="hl">der</span> Freunde</td><td><span class="hl">meiner</span> Freunde</td></tr>
+      </table>
+      <div class="tip-box">⚠️ Maskulin + Neutral: Nomen bekommt <strong>-(e)s</strong><br>Kurz: des Mannes · Lang: des Computers</div>
+      <div class="ex-block">
+        <div class="ex-de">Das Auto <span class="red">meines Vaters</span> ist blau.</div>
+        <div class="ex-fa">der Vater → maskulin → meines Vaters</div>
+        <div class="ex-de" style="margin-top:8px">Wie viele <span class="red">Ihrer Freunde</span> treffen Sie?</div>
+        <div class="ex-fa">→ direkt aus Kursbuch Seite 14!</div>
+      </div>
+    </div>
+    <div class="rule-box">
+      <div class="sec-title" style="font-size:1rem">Genitiv vs. von + Dativ</div>
+      <table>
+        <tr><th>Genitiv (formell)</th><th>von + Dativ</th></tr>
+        <tr><td>Auto <span class="hl">meines Vaters</span></td><td>Auto <span class="hl">von meinem Vater</span></td></tr>
+        <tr><td>Meinung <span class="hl">der Leute</span></td><td>Meinung <span class="hl">von den Leuten</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="sub-konnektoren" class="sub-view">
+    <div class="kk-card" style="border-color:#2a6496">
+      <div class="kk-title">nicht nur … sondern auch</div>
+      <div class="kk-func">Aufzählung positiv</div>
+      <div class="kk-ex">Wir haben <span>nicht nur</span> gearbeitet, <span>sondern auch</span> gesungen.</div>
+    </div>
+    <div class="kk-card" style="border-color:#3a7d5a">
+      <div class="kk-title">sowohl … als auch</div>
+      <div class="kk-func">Aufzählung positiv</div>
+      <div class="kk-ex"><span>Sowohl</span> meine Mutter <span>als auch</span> mein Vater sprechen Deutsch.</div>
+    </div>
+    <div class="kk-card" style="border-color:#b94040">
+      <div class="kk-title">weder … noch</div>
+      <div class="kk-func">Aufzählung negativ</div>
+      <div class="kk-ex">Es macht <span>weder</span> ihm <span>noch</span> mir etwas aus.</div>
+    </div>
+    <div class="kk-card" style="border-color:#c9a84c">
+      <div class="kk-title">entweder … oder</div>
+      <div class="kk-func">Alternative</div>
+      <div class="kk-ex"><span>Entweder</span> gehen wir essen <span>oder</span> wir treffen uns zuhause.</div>
+    </div>
+    <div class="kk-card" style="border-color:#6a3d7a">
+      <div class="kk-title">einerseits … andererseits</div>
+      <div class="kk-func">Gegensatz</div>
+      <div class="kk-ex"><span>Einerseits</span> möchte ich kommen, <span>andererseits</span> habe ich keine Zeit.</div>
+    </div>
+    <div class="kk-card" style="border-color:#555">
+      <div class="kk-title">zwar … aber</div>
+      <div class="kk-func">Einschränkung</div>
+      <div class="kk-ex">Wir sehen uns <span>zwar</span> nicht oft, <span>aber</span> wir bleiben Freunde.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="view-quiz" class="view">
+  <div id="quiz-card">
+    <div class="progress-bar"><div class="progress-fill" id="q-progress"></div></div>
+    <div class="counter" id="q-counter"></div>
+    <div class="quiz-q">
+      <div class="quiz-label">Frage <span id="q-num">1</span> von <span id="q-total"></span></div>
+      <div class="quiz-text" id="q-text"></div>
+      <div class="quiz-opts" id="q-opts"></div>
+      <div class="quiz-fb" id="q-fb"></div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()" style="display:none">Weiter →</button>
+    </div>
+  </div>
+  <div class="quiz-score" id="quiz-score">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-lbl">Richtige Antworten</div>
+    <button class="btn btn-primary" onclick="startQuiz()">Nochmal</button>
+  </div>
+</div>
+
+<!-- ══ BOTTOM NAV ══ -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="showView('karten',this)">
+    <span class="nav-icon">🃏</span>Karten
+  </button>
+  <button class="nav-btn" onclick="showView('woerter',this)">
+    <span class="nav-icon">📚</span>Wörter
+  </button>
+  <button class="nav-btn" onclick="showView('grammatik',this)">
+    <span class="nav-icon">📐</span>Grammatik
+  </button>
+  <button class="nav-btn" onclick="showView('quiz',this)">
+    <span class="nav-icon">🧠</span>Quiz
+  </button>
+</div>
+
+<script>
+var cards = [
+  { word: "hin- und hergerissen sein", meaning: "Unentschlossen zwischen zwei Gefühlen", example: "Einerseits möchte ich ihn treffen, andererseits weiß ich nicht." },
+  { word: "aus den Augen verlieren", meaning: "Den Kontakt verlieren", example: "Nach dem Umzug haben wir uns aus den Augen verloren." },
+  { word: "durch dick und dünn gehen", meaning: "In guten und schlechten Zeiten zusammenhalten", example: "Echte Freunde gehen durch dick und dünn." },
+  { word: "Neuigkeiten austauschen", meaning: "Sich gegenseitig Neuigkeiten erzählen", example: "Wir tauschen erst mal alle Neuigkeiten aus." },
+  { word: "einerseits … andererseits", meaning: "Auf der einen Seite … auf der anderen Seite", example: "Einerseits möchte ich kommen, andererseits habe ich keine Zeit." },
+  { word: "Tür an Tür wohnen", meaning: "Direkt nebenan wohnen", example: "Wir haben Jahre lang Tür an Tür gewohnt." },
+  { word: "der/die Bekannte", meaning: "Jemand den man kennt, aber kein enger Freund", example: "Er ist ein Bekannter von mir." },
+  { word: "die Urlaubsbekanntschaft", meaning: "Jemand den man im Urlaub kennengelernt hat", example: "Gerard ist eine Urlaubsbekanntschaft aus Spanien." },
+  { word: "regelmäßig", meaning: "In gleichmäßigen Abständen, oft", example: "Wie viele Ihrer Freunde treffen Sie regelmäßig?" },
+  { word: "pflegen", meaning: "Sich um etwas kümmern, erhalten", example: "Man muss Freundschaften pflegen." },
+  { word: "der Lebenszeuge", meaning: "Jemand der dein Leben miterlebt", example: "Ich betrachte ihn als meinen Lebenszeugen." },
+  { word: "an Wert gewinnen", meaning: "Wichtiger werden", example: "Freundschaft gewinnt an Wert." }
+];
+
+var words = [
+  { de: "der/die Bekannte", art: "Nomen", mean: "Jemand den man kennt, aber kein enger Freund", ex: "Er ist ein Bekannter von mir.", page: "s13" },
+  { de: "die Herkunft", art: "Nomen", mean: "Woher jemand kommt", ex: "Zeichne Motive zu deiner Herkunft.", page: "s13" },
+  { de: "die Tätigkeit", art: "Nomen", mean: "Die Arbeit oder Beschäftigung", ex: "Was ist Ihre Tätigkeit?", page: "s13" },
+  { de: "vorstellen", art: "Verb", mean: "Jemanden präsentieren", ex: "Ich stelle euch Fabio vor.", page: "s13" },
+  { de: "vermuten", art: "Verb", mean: "Etwas glauben ohne es sicher zu wissen", ex: "Vermuten Sie was die Bilder bedeuten.", page: "s13" },
+  { de: "die Urlaubsbekanntschaft", art: "Nomen", mean: "Jemand den man im Urlaub kennengelernt hat", ex: "Gerard ist eine Urlaubsbekanntschaft.", page: "s14" },
+  { de: "der Schulfreund", art: "Nomen", mean: "Ein Freund aus der Schulzeit", ex: "Ich habe nicht nur einen Schulfreund sondern gleich sechs.", page: "s14" },
+  { de: "hin- und hergerissen sein", art: "Redewendung", mean: "Unentschlossen zwischen zwei Gefühlen", ex: "Nun bin ich hin- und hergerissen.", page: "s14" },
+  { de: "aus den Augen verlieren", art: "Redewendung", mean: "Den Kontakt verlieren", ex: "Danach haben wir uns aus den Augen verloren.", page: "s14" },
+  { de: "Neuigkeiten austauschen", art: "Redewendung", mean: "Sich gegenseitig Neuigkeiten erzählen", ex: "Wir tauschen erst mal alle Neuigkeiten aus.", page: "s14" },
+  { de: "einerseits … andererseits", art: "Konnektor", mean: "Auf der einen Seite … auf der anderen Seite", ex: "Einerseits möchte ich ihn sehen andererseits bringt das nichts.", page: "s14" },
+  { de: "regelmäßig", art: "Adjektiv", mean: "In gleichmäßigen Abständen oft", ex: "Wie viele Ihrer Freunde treffen Sie regelmäßig?", page: "s14" },
+  { de: "durch dick und dünn gehen", art: "Redewendung", mean: "In guten und schlechten Zeiten zusammenhalten", ex: "Auf echte Freunde kann man sich verlassen.", page: "s14" },
+  { de: "pflegen", art: "Verb", mean: "Sich um etwas kümmern erhalten", ex: "Man muss Freundschaften pflegen.", page: "s15" },
+  { de: "nachlassen", art: "Verb", mean: "Schwächer werden", ex: "Manche Freundschaften lassen nach.", page: "s15" },
+  { de: "sich auflösen", art: "Verb", mean: "Verschwinden enden", ex: "Einige Freundschaften lösen sich ganz auf.", page: "s15" },
+  { de: "an Wert gewinnen", art: "Ausdruck", mean: "Wichtiger werden", ex: "Freundschaft gewinnt an Wert.", page: "s15" },
+  { de: "der Lebenszeuge", art: "Nomen", mean: "Jemand der dein Leben miterlebt und kennt", ex: "Ich betrachte ihn als meinen Lebenszeugen.", page: "s15" }
+];
+
+var quizData = [
+  { q: "Das Buch ___ Lehrers liegt auf dem Tisch.", correct: "des", wrong: ["der", "dem", "die"], ex: "Maskulin Genitiv → des" },
+  { q: "Der Name ___ Frau ist Kerstin.", correct: "der", wrong: ["des", "dem", "die"], ex: "Feminin Genitiv → der" },
+  { q: "Wie viele ___ Freunde treffen Sie?", correct: "Ihrer", wrong: ["Ihren", "Ihrem", "Ihre"], ex: "Plural Genitiv formell → Ihrer" },
+  { q: "Was bedeutet: hin- und hergerissen sein?", correct: "Unentschlossen zwischen zwei Gefühlen", wrong: ["Sehr glücklich sein", "Müde sein", "Jemanden vermissen"], ex: "zwischen zwei Gefühlen hin- und hergerissen" },
+  { q: "Wir haben ___ nur geschrieben ___ auch telefoniert.", correct: "nicht / sondern", wrong: ["weder / noch", "zwar / aber", "sowohl / als"], ex: "nicht nur … sondern auch = Aufzählung positiv" },
+  { q: "___ möchte ich kommen ___ habe ich keine Zeit.", correct: "Einerseits / andererseits", wrong: ["Entweder / oder", "Weder / noch", "Zwar / aber"], ex: "einerseits … andererseits = Gegensatz" },
+  { q: "Was bedeutet: aus den Augen verlieren?", correct: "Den Kontakt verlieren", wrong: ["Jemanden nicht mögen", "Zusammen reisen", "Sich streiten"], ex: "Kontakt verlieren nach einem Umzug zum Beispiel" },
+  { q: "Die Hälfte ___ Studenten lernt Deutsch.", correct: "der", wrong: ["des", "dem", "die"], ex: "Plural Genitiv → der" },
+  { q: "Wir sehen uns ___ nicht oft ___ wir bleiben Freunde.", correct: "zwar / aber", wrong: ["einerseits / andererseits", "weder / noch", "nicht / sondern"], ex: "zwar … aber = Einschränkung" },
+  { q: "Was bedeutet: durch dick und dünn gehen?", correct: "Immer füreinander da sein", wrong: ["Zusammen Sport machen", "Viel essen", "Oft streiten"], ex: "in guten und schlechten Zeiten zusammenhalten" }
+];
+
+var cardIdx = 0, flipped = false, qIdx = 0, score = 0, currentCorrect = "";
+
+function renderCard() {
+  var d = cards[cardIdx];
+  document.getElementById("c-word").textContent = d.word;
+  document.getElementById("c-meaning").textContent = d.meaning;
+  document.getElementById("c-example").textContent = d.example;
+  document.getElementById("c-counter").textContent = (cardIdx+1) + " / " + cards.length;
+  document.getElementById("c-progress").style.width = ((cardIdx+1)/cards.length*100) + "%";
+  document.getElementById("flashcard").classList.remove("flipped");
+  flipped = false;
+}
+function flipCard() { flipped=!flipped; document.getElementById("flashcard").classList.toggle("flipped",flipped); }
+function nextCard() { cardIdx=(cardIdx+1)%cards.length; renderCard(); }
+function prevCard() { cardIdx=(cardIdx-1+cards.length)%cards.length; renderCard(); }
+
+function renderWords() {
+  var html="";
+  for(var i=0;i<words.length;i++){
+    var w=words[i];
+    html+='<div class="word-card" data-page="'+w.page+'">';
+    html+='<div class="word-num">'+(i+1)+'</div>';
+    html+='<div class="word-info">';
+    html+='<div class="word-de">'+w.de+'</div>';
+    html+='<div class="word-art">'+w.art+'</div>';
+    html+='<div class="word-mean">'+w.mean+'</div>';
+    html+='<div class="word-ex">'+w.ex+'</div>';
+    html+='</div>';
+    var lbl=w.page==="s13"?"Seite 13":w.page==="s14"?"Seite 14":"Seite 15+";
+    html+='<div class="word-page">'+lbl+'</div></div>';
+  }
+  document.getElementById("word-list").innerHTML=html;
+}
+
+function filterPage(page,btn) {
+  var cards=document.querySelectorAll(".word-card");
+  for(var i=0;i<cards.length;i++){
+    cards[i].classList.toggle("hidden", page!=="all" && cards[i].getAttribute("data-page")!==page);
+  }
+  var btns=document.querySelectorAll(".filter-btn");
+  for(var j=0;j<btns.length;j++){btns[j].classList.remove("active");}
+  btn.classList.add("active");
+}
+
+function startQuiz() {
+  qIdx=0; score=0;
+  document.getElementById("quiz-score").style.display="none";
+  document.getElementById("quiz-card").style.display="block";
+  document.getElementById("q-total").textContent=quizData.length;
+  renderQ();
+}
+function renderQ() {
+  var q=quizData[qIdx];
+  currentCorrect=q.correct;
+  document.getElementById("q-num").textContent=qIdx+1;
+  document.getElementById("q-counter").textContent=(qIdx+1)+" / "+quizData.length;
+  document.getElementById("q-progress").style.width=((qIdx+1)/quizData.length*100)+"%";
+  document.getElementById("q-text").textContent=q.q;
+  document.getElementById("q-fb").className="quiz-fb";
+  document.getElementById("btn-next").style.display="none";
+  var opts=[q.correct,q.wrong[0],q.wrong[1],q.wrong[2]];
+  opts.sort(function(){return Math.random()-0.5;});
+  var html="";
+  for(var i=0;i<opts.length;i++){html+='<button class="quiz-opt" onclick="answerQ(this)">'+opts[i]+'</button>';}
+  document.getElementById("q-opts").innerHTML=html;
+}
+function answerQ(btn) {
+  var chosen=btn.textContent.trim();
+  var btns=document.querySelectorAll(".quiz-opt");
+  for(var i=0;i<btns.length;i++){btns[i].disabled=true;}
+  var fb=document.getElementById("q-fb");
+  var q=quizData[qIdx];
+  if(chosen===currentCorrect){
+    btn.classList.add("correct");
+    fb.textContent="Richtig! "+q.ex;
+    fb.className="quiz-fb show ok";
+    score++;
+  } else {
+    btn.classList.add("wrong");
+    for(var j=0;j<btns.length;j++){if(btns[j].textContent.trim()===currentCorrect)btns[j].classList.add("correct");}
+    fb.textContent="Falsch. Richtig: "+currentCorrect+" — "+q.ex;
+    fb.className="quiz-fb show bad";
+  }
+  document.getElementById("btn-next").style.display="inline-block";
+}
+function nextQ() {
+  qIdx++;
+  if(qIdx>=quizData.length){
+    document.getElementById("quiz-card").style.display="none";
+    document.getElementById("quiz-score").style.display="block";
+    document.getElementById("score-num").textContent=score+" / "+quizData.length;
+  } else {renderQ();}
+}
+
+function showView(v, btn) {
+  var views=["karten","woerter","grammatik","quiz"];
+  for(var i=0;i<views.length;i++){
+    document.getElementById("view-"+views[i]).classList.toggle("active", views[i]===v);
+  }
+  var btns=document.querySelectorAll(".nav-btn");
+  for(var j=0;j<btns.length;j++){btns[j].classList.remove("active");}
+  btn.classList.add("active");
+  if(v==="quiz") startQuiz();
+  if(v==="woerter") renderWords();
+}
+
+function showSub(v, btn) {
+  var subs=["genitiv","konnektoren"];
+  for(var i=0;i<subs.length;i++){
+    document.getElementById("sub-"+subs[i]).classList.toggle("active", subs[i]===v);
+  }
+  var btns=document.querySelectorAll(".sub-tab");
+  for(var j=0;j<btns.length;j++){btns[j].classList.remove("active");}
+  btn.classList.add("active");
+}
+
+renderCard();
+</script>
+</body>
+</html>
