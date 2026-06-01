@@ -266,6 +266,32 @@ tr:nth-child(even) td { background: #faf7f0; }
 /* VIEWS inside learn */
 .learn-view { display: none; }
 .learn-view.active { display: block; }
+
+/* ── PRONUNCIATION ── */
+.pronun-btn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin: 14px auto 0;
+  padding: 10px 22px; border-radius: 24px;
+  background: var(--navy); color: white;
+  border: none; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.88rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.pronun-btn.listening {
+  background: var(--red); animation: pulse 1s infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+.pronun-feedback {
+  margin-top: 12px; padding: 12px 14px;
+  border-radius: 10px; font-size: 0.84rem;
+  line-height: 1.5; display: none;
+  background: #f0f4ff; color: var(--navy);
+  border-left: 4px solid var(--blue);
+}
+.pronun-feedback.show { display: block; }
+.pronun-loading { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 8px; display: none; }
+.pronun-loading.show { display: block; }
 </style>
 </head>
 <body>
@@ -670,6 +696,97 @@ function showSub(v,btn){
   for(var j=0;j<btns.length;j++) btns[j].classList.remove("active");
   btn.classList.add("active");
 }
+
+// ── PRONUNCIATION ──
+var recognition = null;
+var isListening = false;
+
+function startPronun() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    document.getElementById('pronun-feedback').textContent = 'Dein Browser unterstützt keine Spracherkennung. Bitte Safari nutzen.';
+    document.getElementById('pronun-feedback').className = 'pronun-feedback show';
+    return;
+  }
+
+  if (isListening) {
+    recognition.stop();
+    return;
+  }
+
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'de-DE';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 3;
+
+  var btn = document.getElementById('pronun-btn');
+  btn.textContent = '🔴 Stopp';
+  btn.classList.add('listening');
+  isListening = true;
+
+  document.getElementById('pronun-feedback').className = 'pronun-feedback';
+  document.getElementById('pronun-loading').className = 'pronun-loading';
+
+  recognition.onresult = function(event) {
+    var spoken = '';
+    for (var i = 0; i < event.results[0].length; i++) {
+      spoken += event.results[0][i].transcript + ' ';
+    }
+    spoken = spoken.trim();
+    checkPronunciation(spoken);
+  };
+
+  recognition.onerror = function(e) {
+    resetBtn();
+    document.getElementById('pronun-feedback').textContent = 'Fehler: ' + e.error + '. Bitte nochmal versuchen.';
+    document.getElementById('pronun-feedback').className = 'pronun-feedback show';
+  };
+
+  recognition.onend = function() { resetBtn(); };
+  recognition.start();
+}
+
+function resetBtn() {
+  isListening = false;
+  var btn = document.getElementById('pronun-btn');
+  btn.textContent = '🎤 Aussprache üben';
+  btn.classList.remove('listening');
+}
+
+async function checkPronunciation(spoken) {
+  resetBtn();
+  var target = cards[cardIdx].word;
+  document.getElementById('pronun-loading').className = 'pronun-loading show';
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: 'Du bist ein Deutsch-Aussprache-Coach für Persisch-Muttersprachler. Antworte immer auf Englisch. Be encouraging, short and specific. Max 3 sentences.',
+        messages: [{
+          role: 'user',
+          content: 'Target word: "' + target + '". The student said: "' + spoken + '". Give pronunciation feedback. Was it correct? If not, explain what to improve specifically for Persian speakers.'
+        }]
+      })
+    });
+
+    var data = await response.json();
+    var feedback = data.content && data.content[0] ? data.content[0].text : 'Could not get feedback.';
+
+    document.getElementById('pronun-loading').className = 'pronun-loading';
+    document.getElementById('pronun-feedback').innerHTML = '🤖 <strong>AI Feedback:</strong><br>' + feedback;
+    document.getElementById('pronun-feedback').className = 'pronun-feedback show';
+
+  } catch(e) {
+    document.getElementById('pronun-loading').className = 'pronun-loading';
+    document.getElementById('pronun-feedback').textContent = 'Error: ' + e.message;
+    document.getElementById('pronun-feedback').className = 'pronun-feedback show';
+  }
+}
+
 </script>
 </body>
 </html>
