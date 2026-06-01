@@ -360,7 +360,7 @@ tr:nth-child(even) td { background: #faf7f0; }
       <div class="lektion-num num-active">1</div>
       <div class="lektion-info">
         <div class="lektion-title">Freunde</div>
-        <div class="lektion-meta">20 Wörter · Genitiv · Konnektoren · Quiz</div>
+        <div class="lektion-meta">29 Wörter · Seiten 13–15 · Genitiv · Konnektoren · Quiz</div>
       </div>
       <div class="lektion-arrow">→</div>
     </div>
@@ -493,6 +493,20 @@ tr:nth-child(even) td { background: #faf7f0; }
         <div class="kk-card" style="border-color:#b94040"><div class="kk-title">weder … noch</div><div class="kk-func">Aufzählung negativ</div><div class="kk-ex">Es macht <span>weder</span> ihm <span>noch</span> mir etwas aus.</div></div>
         <div class="kk-card" style="border-color:#c9a84c"><div class="kk-title">entweder … oder</div><div class="kk-func">Alternative</div><div class="kk-ex"><span>Entweder</span> gehen wir essen <span>oder</span> wir treffen uns zuhause.</div></div>
         <div class="kk-card" style="border-color:#6a3d7a"><div class="kk-title">einerseits … andererseits</div><div class="kk-func">Gegensatz</div><div class="kk-ex"><span>Einerseits</span> möchte ich kommen, <span>andererseits</span> habe ich keine Zeit.</div></div>
+        
+        <!-- Seite 15 Konnektoren Übersicht -->
+        <div class="rule-box" style="margin-top:14px">
+          <div class="sec-title" style="font-size:0.95rem">📋 Alle Konnektoren — Übersicht</div>
+          <table>
+            <tr><th>Konnektor</th><th>Bedeutung</th></tr>
+            <tr><td><span class="hl">sowohl … als auch</span></td><td>positive Aufzählung</td></tr>
+            <tr><td><span class="hl">nicht nur … sondern auch</span></td><td>positive Aufzählung</td></tr>
+            <tr><td><span class="hl">weder … noch</span></td><td>negative Aufzählung</td></tr>
+            <tr><td><span class="hl">entweder … oder</span></td><td>Alternative</td></tr>
+            <tr><td><span class="hl">einerseits … andererseits</span></td><td>Gegensatz</td></tr>
+            <tr><td><span class="hl">zwar … aber</span></td><td>Einschränkung</td></tr>
+          </table>
+        </div>
         <div class="kk-card" style="border-color:#555"><div class="kk-title">zwar … aber</div><div class="kk-func">Einschränkung</div><div class="kk-ex">Wir sehen uns <span>zwar</span> nicht oft, <span>aber</span> wir bleiben Freunde.</div></div>
       </div>
     </div>
@@ -544,7 +558,15 @@ var cards = [
   {word:"regelmäßig",meaning:"In gleichmäßigen Abständen, oft",example:"Wie viele Ihrer Freunde treffen Sie regelmäßig?"},
   {word:"pflegen",meaning:"Sich um etwas kümmern, erhalten",example:"Man muss Freundschaften pflegen."},
   {word:"der Lebenszeuge",meaning:"Jemand der dein Leben miterlebt",example:"Ich betrachte ihn als meinen Lebenszeugen."},
-  {word:"an Wert gewinnen",meaning:"Wichtiger werden",example:"Freundschaft gewinnt an Wert."}
+  {word:"an Wert gewinnen",meaning:"Wichtiger werden",example:"Freundschaft gewinnt an Wert."},
+  {word:"sich verlassen auf + Akk.",meaning:"Jemandem vertrauen können",example:"Ich kann mich immer auf sie verlassen."},
+  {word:"sich melden",meaning:"Kontakt aufnehmen, schreiben oder anrufen",example:"Sophie meldet sich selten bei mir."},
+  {word:"weggezogen sein",meaning:"Umgezogen sein, woanders hingezogen",example:"Sebastian und Axel sind weggezogen. Das finde ich sehr schade."},
+  {word:"den Kontakt nicht verlieren",meaning:"In Kontakt bleiben",example:"Wir haben den Kontakt nicht verloren."},
+  {word:"bezeichnen als",meaning:"Nennen, definieren",example:"Mit Freund bezeichnet man bei uns eine besondere Person."},
+  {word:"der Unterschied",meaning:"Die Differenz zwischen zwei Dingen",example:"Den Unterschied zwischen Freunden und Bekannten kennt man bei uns."},
+  {word:"verstehen unter + Dat.",meaning:"Mit einem Wort meinen",example:"Unter einem Freund versteht man sowohl ... als auch ..."},
+  {word:"schade",meaning:"Bedauerlich, traurig",example:"Das finde ich sehr schade."},
 ];
 
 var words = [
@@ -565,7 +587,16 @@ var words = [
   {de:"nachlassen",art:"Verb",mean:"Schwächer werden",ex:"Manche Freundschaften lassen nach.",page:"s15"},
   {de:"sich auflösen",art:"Verb",mean:"Verschwinden enden",ex:"Einige Freundschaften lösen sich ganz auf.",page:"s15"},
   {de:"an Wert gewinnen",art:"Ausdruck",mean:"Wichtiger werden",ex:"Freundschaft gewinnt an Wert.",page:"s15"},
-  {de:"der Lebenszeuge",art:"Nomen",mean:"Jemand der dein Leben miterlebt und kennt",ex:"Ich betrachte ihn als meinen Lebenszeugen.",page:"s15"}
+  {de:"der Lebenszeuge",art:"Nomen",mean:"Jemand der dein Leben miterlebt und kennt",ex:"Ich betrachte ihn als meinen Lebenszeugen.",page:"s15"},
+  {de:"weggezogen sein",art:"Verb",mean:"Umgezogen sein, woanders hingezogen",ex:"Sebastian und Axel sind weggezogen.",page:"s15"},
+  {de:"den Kontakt nicht verlieren",art:"Redewendung",mean:"In Kontakt bleiben",ex:"Wir haben den Kontakt nicht verloren.",page:"s15"},
+  {de:"sich melden",art:"Verb",mean:"Kontakt aufnehmen, schreiben oder anrufen",ex:"Sophie meldet sich selten.",page:"s15"},
+  {de:"sich verlassen auf",art:"Verb",mean:"Jemandem vertrauen können",ex:"Ich kann mich immer auf sie verlassen.",page:"s15"},
+  {de:"bezeichnen als",art:"Verb",mean:"Nennen, definieren",ex:"Mit Freund bezeichnet man bei uns eine Person.",page:"s15"},
+  {de:"der Unterschied",art:"Nomen",mean:"Die Differenz zwischen zwei Dingen",ex:"Den Unterschied zwischen Freunden und Bekannten kennt man.",page:"s15"},
+  {de:"verstehen unter",art:"Verb",mean:"Mit einem Wort meinen",ex:"Unter einem Freund versteht man bei uns sowohl ... als auch ...",page:"s15"},
+  {de:"schade",art:"Adjektiv",mean:"Bedauerlich, traurig",ex:"Das finde ich sehr schade.",page:"s15"},
+  {de:"weggehen / sich trennen",art:"Verb",mean:"Eine Beziehung oder Freundschaft beenden",ex:"Wir haben uns leider getrennt.",page:"s15"},
 ];
 
 var quizData = [
@@ -578,7 +609,12 @@ var quizData = [
   {q:"Was bedeutet: aus den Augen verlieren?",correct:"Den Kontakt verlieren",wrong:["Nicht mögen","Zusammen reisen","Sich streiten"],ex:"Kontakt verlieren"},
   {q:"Die Hälfte ___ Studenten lernt Deutsch.",correct:"der",wrong:["des","dem","die"],ex:"Plural Genitiv → der"},
   {q:"Wir sehen uns ___ nicht oft ___ wir bleiben Freunde.",correct:"zwar / aber",wrong:["einerseits / andererseits","weder / noch","nicht / sondern"],ex:"zwar … aber = Einschränkung"},
-  {q:"Was bedeutet: durch dick und dünn gehen?",correct:"Immer füreinander da sein",wrong:["Zusammen Sport","Viel essen","Oft streiten"],ex:"in guten und schlechten Zeiten"}
+  {q:"Was bedeutet: durch dick und dünn gehen?",correct:"Immer füreinander da sein",wrong:["Zusammen Sport","Viel essen","Oft streiten"],ex:"in guten und schlechten Zeiten"},
+  {q:"Welcher Konnektor drückt eine Alternative aus?",correct:"entweder … oder",wrong:["weder … noch","zwar … aber","sowohl … als auch"],ex:"Entweder … oder = Alternative"},
+  {q:"Was bedeutet: sich auf jemanden verlassen?",correct:"Jemandem vertrauen können",wrong:["Jemanden anrufen","Sich verabschieden","Jemanden treffen"],ex:"sich verlassen auf = vertrauen"},
+  {q:"Welcher Konnektor ist eine negative Aufzählung?",correct:"weder … noch",wrong:["sowohl … als auch","nicht nur … sondern auch","entweder … oder"],ex:"weder … noch = negative Aufzählung"},
+  {q:"Was bedeutet: sich melden?",correct:"Kontakt aufnehmen",wrong:["Weggehen","Sich beschweren","Schlafen gehen"],ex:"sich melden = schreiben oder anrufen"},
+  {q:"Welcher Konnektor zeigt Einschränkung?",correct:"zwar … aber",wrong:["sowohl … als auch","entweder … oder","weder … noch"],ex:"zwar … aber = Einschränkung und Gegensatz"},
 ];
 
 // ── NAVIGATION ──
