@@ -459,6 +459,7 @@ tr:nth-child(even) td { background: #faf7f0; }
       <div class="sub-tabs">
         <button class="sub-tab active" onclick="showSub('genitiv',this)">📌 Genitiv</button>
         <button class="sub-tab" onclick="showSub('konnektoren',this)">🔗 Konnektoren</button>
+    <button class="sub-tab" onclick="showSub('satzstrukturen',this)">🔍 Satzstrukturen</button>
       </div>
       <div id="sub-genitiv" class="sub-view active">
         <div class="rule-box">
@@ -508,7 +509,98 @@ tr:nth-child(even) td { background: #faf7f0; }
           </table>
         </div>
         <div class="kk-card" style="border-color:#555"><div class="kk-title">zwar … aber</div><div class="kk-func">Einschränkung</div><div class="kk-ex">Wir sehen uns <span>zwar</span> nicht oft, <span>aber</span> wir bleiben Freunde.</div></div>
-      </div>
+
+      </div><!-- end sub-konnektoren -->
+
+      <div id="sub-satzstrukturen" class="sub-view">
+        <div class="rule-box">
+          <div class="sec-title">🔍 Schwierige Satzstrukturen</div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">
+            Sätze die kompliziert klingen — hier erklärt!
+          </p>
+        </div>
+
+        <!-- Structure 1 -->
+        <div class="kk-card" style="border-color:#3a7d5a">
+          <div class="kk-title">bei einem von uns zu Hause</div>
+          <div class="kk-func">Präpositionalphrase · Seite 14</div>
+          <div class="kk-ex">
+            <span>bei</span> + Dativ → Ort oder Person<br><br>
+            „Entweder gehen wir essen oder wir treffen uns <span>bei einem von uns</span> zu Hause."<br><br>
+            📌 „bei einem von uns" = at one of our places<br>
+            📌 „zu Hause" = at home<br>
+            📌 Zusammen: „at one of our homes"
+          </div>
+        </div>
+
+        <!-- Structure 2 -->
+        <div class="kk-card" style="border-color:#b94040">
+          <div class="kk-title">Es macht weder ihm noch mir etwas aus</div>
+          <div class="kk-func">Zweiteiliger Konnektor + Dativ · Seite 14</div>
+          <div class="kk-ex">
+            „etwas ausmachen" = to matter, to bother<br><br>
+            „Es macht <span>mir</span> etwas aus." = It bothers me.<br>
+            „Es macht <span>mir</span> nichts aus." = I don't mind.<br>
+            „Es macht <span>weder ihm noch mir</span> etwas aus." = Neither he nor I mind.<br><br>
+            📌 Struktur: Es macht + [Dativ] + (nichts/etwas) + aus<br>
+            📌 „ihm" = Dativ von „er"<br>
+            📌 „mir" = Dativ von „ich"
+          </div>
+        </div>
+
+        <!-- Structure 3 -->
+        <div class="kk-card" style="border-color:#2a6496">
+          <div class="kk-title">Ich bin hin- und hergerissen</div>
+          <div class="kk-func">Idiomatischer Ausdruck · Seite 14</div>
+          <div class="kk-ex">
+            „hin" = weg · „her" = zurück · „gerissen" = gezogen<br><br>
+            → Man wird in zwei Richtungen gezogen<br><br>
+            „<span>Einerseits</span> möchte ich ihn treffen, <span>andererseits</span> bringt das nichts. Ich bin hin- und hergerissen."<br><br>
+            📌 Persisch: دو دل بودن<br>
+            📌 Englisch: torn between two things
+          </div>
+        </div>
+
+        <!-- Structure 4 -->
+        <div class="kk-card" style="border-color:#c9a84c">
+          <div class="kk-title">Ob man sich allein fühlt, kommt darauf an</div>
+          <div class="kk-func">ob-Satz + darauf ankommen · Seite 16</div>
+          <div class="kk-ex">
+            „es kommt darauf an" = it depends<br><br>
+            „<span>Ob</span> man sich allein fühlt, kommt darauf an, was man unter Freund versteht."<br><br>
+            📌 Struktur: Ob + [Satz], kommt darauf an, + was/wie/wann...<br>
+            📌 „ob" leitet einen indirekten Fragesatz ein<br>
+            📌 Verb steht am Ende: „versteht"
+          </div>
+        </div>
+
+        <!-- Structure 5 -->
+        <div class="kk-card" style="border-color:#6a3d7a">
+          <div class="kk-title">Dabei zeigte sich, dass...</div>
+          <div class="kk-func">dass-Satz + Verb-Ende · Seite 16</div>
+          <div class="kk-ex">
+            „dabei" = in doing so / in the process<br><br>
+            „Dabei zeigte sich, <span>dass</span> die Beziehungskette sogar noch kürzer <span>ist</span>."<br><br>
+            📌 Nach „dass" → Verb kommt ans Ende!<br>
+            📌 „sich zeigen" = to turn out / to become apparent<br>
+            📌 Englisch: In doing so, it turned out that...
+          </div>
+        </div>
+
+        <!-- Structure 6 -->
+        <div class="kk-card" style="border-color:#555">
+          <div class="kk-title">Das Paket durfte nicht direkt gesendet werden, sondern...</div>
+          <div class="kk-func">Modalverb + Passiv · Seite 16</div>
+          <div class="kk-ex">
+            Struktur: dürfen + nicht + [Verb] + werden<br><br>
+            „Das Paket durfte nicht direkt <span>gesendet werden</span>, <span>sondern</span> an eine Person, die den Absender kannte."<br><br>
+            📌 „dürfen + werden" = Passiv mit Modalverb<br>
+            📌 „nicht ... sondern" = not ... but rather<br>
+            📌 Englisch: The package was not allowed to be sent directly, but rather...
+          </div>
+        </div>
+
+      </div><!-- end sub-satzstrukturen -->
     </div>
 
     <!-- QUIZ -->
@@ -726,7 +818,7 @@ function showLearnView(v,btn){
   if(v==="woerter") renderWords();
 }
 function showSub(v,btn){
-  var subs=["genitiv","konnektoren"];
+  var subs=["genitiv","konnektoren","satzstrukturen"];
   for(var i=0;i<subs.length;i++) document.getElementById("sub-"+subs[i]).classList.toggle("active",subs[i]===v);
   var btns=document.querySelectorAll(".sub-tab");
   for(var j=0;j<btns.length;j++) btns[j].classList.remove("active");
