@@ -360,7 +360,7 @@ tr:nth-child(even) td { background: #faf7f0; }
       <div class="lektion-num num-active">1</div>
       <div class="lektion-info">
         <div class="lektion-title">Freunde</div>
-        <div class="lektion-meta">29 Wörter · Seiten 13–15 · Genitiv · Konnektoren · Quiz</div>
+        <div class="lektion-meta">46 Wörter · Seiten 13–17 · Genitiv · Mittelfeld · Konnektoren · Quiz</div>
       </div>
       <div class="lektion-arrow">→</div>
     </div>
@@ -450,6 +450,8 @@ tr:nth-child(even) td { background: #faf7f0; }
         <button class="filter-btn" onclick="filterPage('s13',this)">S. 13</button>
         <button class="filter-btn" onclick="filterPage('s14',this)">S. 14</button>
         <button class="filter-btn" onclick="filterPage('s15',this)">S. 15</button>
+        <button class="filter-btn" onclick="filterPage('s16',this)">S. 16</button>
+        <button class="filter-btn" onclick="filterPage('s17',this)">S. 17</button>
       </div>
       <div id="word-list"></div>
     </div>
@@ -600,6 +602,29 @@ tr:nth-child(even) td { background: #faf7f0; }
           </div>
         </div>
 
+
+        <div class="kk-card" style="border-color:#3a7d5a">
+          <div class="kk-title">Über sechs Ecken kennt jeder jeden</div>
+          <div class="kk-func">Präpositionalphrase am Satzanfang · Seite 16</div>
+          <div class="kk-ex">
+            „<span>Über sechs Ecken</span> kennt jeder Mensch jeden."<br><br>
+            📌 „über" hier = through / via<br>
+            📌 Präpositionalphrase am Anfang → Verb an 2. Stelle<br>
+            📌 Englisch: Through six connections, everyone knows everyone.
+          </div>
+        </div>
+        <div class="kk-card" style="border-color:#2a6496">
+          <div class="kk-title">Es hat sich gezeigt, dass...</div>
+          <div class="kk-func">Reflexives Verb + dass-Satz · Seite 17</div>
+          <div class="kk-ex">
+            „Es hat sich gezeigt, <span>dass</span> die Kette kürzer <span>ist</span>."<br><br>
+            📌 „sich zeigen" = to turn out<br>
+            📌 Nach „dass" → Verb ans Ende!<br>
+            📌 Weitere Varianten:<br>
+            „Im Text geht es darum, ..."<br>
+            „Es wird berichtet, ..."
+          </div>
+        </div>
       </div><!-- end sub-satzstrukturen -->
     </div>
 
@@ -659,6 +684,13 @@ var cards = [
   {word:"der Unterschied",meaning:"Die Differenz zwischen zwei Dingen",example:"Den Unterschied zwischen Freunden und Bekannten kennt man bei uns."},
   {word:"verstehen unter + Dat.",meaning:"Mit einem Wort meinen",example:"Unter einem Freund versteht man sowohl ... als auch ..."},
   {word:"schade",meaning:"Bedauerlich, traurig",example:"Das finde ich sehr schade."},
+  {word:"bereits",meaning:"Schon, früher — already",example:"Bereits 1967 machte Milgram ein Experiment."},
+  {word:"feststellen",meaning:"Bemerken, herausfinden — to find out",example:"Milgram stellte fest, dass die Kette sechs Glieder hat."},
+  {word:"mittlerweile",meaning:"Inzwischen, jetzt schon — meanwhile / by now",example:"Sie sind mittlerweile bekannt."},
+  {word:"ermöglichen",meaning:"Möglich machen — to enable",example:"Netzwerke ermöglichen Kontakte mit anderen."},
+  {word:"heutzutage",meaning:"Heute, in der heutigen Zeit — nowadays",example:"Heutzutage ist man weltweit vernetzt."},
+  {word:"veröffentlichen",meaning:"Publizieren, herausgeben — to publish",example:"Die Ergebnisse wurden veröffentlicht."},
+  {word:"verschicken",meaning:"Senden, schicken — to send",example:"60 Freiwillige mussten ein Paket verschicken."},
 ];
 
 var words = [
@@ -689,6 +721,23 @@ var words = [
   {de:"verstehen unter",art:"Verb",mean:"Mit einem Wort meinen",ex:"Unter einem Freund versteht man bei uns sowohl ... als auch ...",page:"s15"},
   {de:"schade",art:"Adjektiv",mean:"Bedauerlich, traurig",ex:"Das finde ich sehr schade.",page:"s15"},
   {de:"weggehen / sich trennen",art:"Verb",mean:"Eine Beziehung oder Freundschaft beenden",ex:"Wir haben uns leider getrennt.",page:"s15"},
+  {de:"die Erdbevölkerung",art:"Nomen",mean:"Alle Menschen auf der Welt",ex:"Die Erdbevölkerung rückt näher zusammen.",page:"s16"},
+  {de:"näher rücken",art:"Verb",mean:"Näher kommen",ex:"Wir rücken im Zeitalter der Medien näher zusammen.",page:"s16"},
+  {de:"das Zeitalter",art:"Nomen",mean:"Eine Epoche, eine Zeit",ex:"Im Zeitalter der modernen Medien.",page:"s16"},
+  {de:"die Redensart",art:"Nomen",mean:"Bekannte Redewendung",ex:"So heißt es in einer Redensart.",page:"s16"},
+  {de:"bereits",art:"Adverb",mean:"Schon, früher",ex:"Bereits 1967 machte Milgram ein Experiment.",page:"s16"},
+  {de:"der Freiwillige",art:"Nomen",mean:"Jemand der freiwillig mitmacht",ex:"60 Freiwillige nahmen am Experiment teil.",page:"s16"},
+  {de:"verschicken",art:"Verb",mean:"Senden, schicken",ex:"Ein Paket verschicken.",page:"s16"},
+  {de:"die Zielperson",art:"Nomen",mean:"Die Person am Ziel",ex:"Das Paket erreichte die Zielperson.",page:"s16"},
+  {de:"der Absender",art:"Nomen",mean:"Wer etwas schickt",ex:"Der Absender war unbekannt.",page:"s16"},
+  {de:"feststellen",art:"Verb",mean:"Bemerken, herausfinden",ex:"Milgram stellte fest, dass die Kette sechs Glieder hat.",page:"s16"},
+  {de:"die Zusammenfassung",art:"Nomen",mean:"Summary",ex:"Fassen Sie den Text zusammen.",page:"s17"},
+  {de:"veröffentlichen",art:"Verb",mean:"Publizieren, herausgeben",ex:"Die Ergebnisse wurden veröffentlicht.",page:"s17"},
+  {de:"mittlerweile",art:"Adverb",mean:"Inzwischen, jetzt schon",ex:"Sie sind mittlerweile bekannt.",page:"s17"},
+  {de:"ermöglichen",art:"Verb",mean:"Möglich machen",ex:"Netzwerke ermöglichen Kontakte.",page:"s17"},
+  {de:"vernetzt",art:"Adjektiv",mean:"Verbunden, connected",ex:"Man ist heutzutage weltweit vernetzt.",page:"s17"},
+  {de:"heutzutage",art:"Adverb",mean:"Heute, in der heutigen Zeit",ex:"Heutzutage ist alles digital.",page:"s17"},
+  {de:"wegen + Genitiv",art:"Präposition",mean:"Because of",ex:"Wegen der sozialen Netzwerke kennt man mehr Leute.",page:"s17"},
 ];
 
 var quizData = [
@@ -702,6 +751,11 @@ var quizData = [
   {q:"Die Hälfte ___ Studenten lernt Deutsch.",correct:"der",wrong:["des","dem","die"],ex:"Plural Genitiv → der"},
   {q:"Wir sehen uns ___ nicht oft ___ wir bleiben Freunde.",correct:"zwar / aber",wrong:["einerseits / andererseits","weder / noch","nicht / sondern"],ex:"zwar … aber = Einschränkung"},
   {q:"Was bedeutet: durch dick und dünn gehen?",correct:"Immer füreinander da sein",wrong:["Zusammen Sport","Viel essen","Oft streiten"],ex:"in guten und schlechten Zeiten"},
+  {q:"Welche Reihenfolge ist richtig? te-ka-mo-lo",correct:"temporal → kausal → modal → lokal",wrong:["lokal → modal → kausal → temporal","modal → temporal → lokal → kausal","kausal → lokal → temporal → modal"],ex:"te-ka-mo-lo = temporal, kausal, modal, lokal"},
+  {q:"Er schickte ___ 1967 ___ 60 Freiwilligen in den USA das Paket.",correct:"bereits / mit",wrong:["mit / bereits","wegen / bereits","bereits / wegen"],ex:"te: bereits 1967 → mo: mit 60 Freiwilligen → lo: in den USA"},
+  {q:"Was bedeutet: feststellen?",correct:"Bemerken, herausfinden",wrong:["Vergessen","Verschicken","Veröffentlichen"],ex:"feststellen = to find out, to realize"},
+  {q:"Was bedeutet: ermöglichen?",correct:"Möglich machen",wrong:["Unmöglich machen","Vergessen","Berichten"],ex:"ermöglichen = to enable, to make possible"},
+  {q:"Facebook hat ___ den Nutzern vorgeschlagen. (Pronomen)",correct:"sie",wrong:["ihr","ihn","ihm"],ex:"Pronomen vor Nomen: sie (Akk.) den Nutzern (Dat.)"},
   {q:"Welcher Konnektor drückt eine Alternative aus?",correct:"entweder … oder",wrong:["weder … noch","zwar … aber","sowohl … als auch"],ex:"Entweder … oder = Alternative"},
   {q:"Was bedeutet: sich auf jemanden verlassen?",correct:"Jemandem vertrauen können",wrong:["Jemanden anrufen","Sich verabschieden","Jemanden treffen"],ex:"sich verlassen auf = vertrauen"},
   {q:"Welcher Konnektor ist eine negative Aufzählung?",correct:"weder … noch",wrong:["sowohl … als auch","nicht nur … sondern auch","entweder … oder"],ex:"weder … noch = negative Aufzählung"},
